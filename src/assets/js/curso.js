@@ -131,13 +131,36 @@ const Cursos = () => {
                                     placeholder="Conteúdo do Curso"
                                 />
                                 <label>Escreva a URL do curso com letras minúsculas</label>
-                                <input
+                                
+                                {/* <input
                                     className='inputs'
                                     type="text"
                                     value={editNameUrl}
                                     onChange={(e) => setEditNameUrl(e.target.value)}
                                     placeholder="URL do Curso"
-                                /><br />
+                                /><br /> */}
+
+                                <input
+                                    className="inputs"
+                                    type="text"
+                                    value={editNameUrl}
+                                    onChange={(e) => {
+                                        // Obtém o valor digitado
+                                        let valor = e.target.value;
+
+                                        // Remove acentos, espaços, ç, caracteres especiais e converte para minúsculas
+                                        valor = valor
+                                        .normalize('NFD') // separa acentos
+                                        .replace(/[\u0300-\u036f]/g, '') // remove acentos
+                                        .replace(/[^a-z0-9]/g, '') // mantém apenas letras minúsculas e números
+                                        .toLowerCase(); // tudo minúsculo
+
+                                        // Atualiza o estado com o valor filtrado
+                                        setEditNameUrl(valor);
+                                    }}
+                                    placeholder="URL do Curso"
+                                />
+                                <br />
                                 <button onClick={handleUpdate}>Salvar</button>
                                 <button onClick={() => setEditCursoId(null)}>Cancelar</button>
                             </div>

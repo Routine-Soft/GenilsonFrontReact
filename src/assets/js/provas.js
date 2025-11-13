@@ -10,6 +10,7 @@ const Provas = () => {
     const [questoes, setQuestoes] = useState({}); // Alterado para suportar diferentes arrays de questões
     const [nameUrl, setNameUrl] = useState()
     const [searchTerm, setSearchTerm] = useState('');
+    const [editLinkUrl, setEditLinkUrl] = useState('')
 
     useEffect(() => {
         fetchProvas();
@@ -20,7 +21,7 @@ const Provas = () => {
             const response = await axios.get('https://api.comunhaorara.com/treino/buscar');
             setProvas(response.data);
             setNameUrl(response.data.nameUrl)
-            console.log('teste', nameUrl)
+            console.log('teste', response.data.nameUrl)
         } catch (error) {
             console.error('Erro ao buscar provas:', error);
         }
@@ -30,6 +31,9 @@ const Provas = () => {
         setEditProvaId(prova._id);
         setEditTitulo(prova.nameProva);
         setEditUrlProva(prova.nameUrl);
+        const metadeUrl = 'https://app.cestsegtrabalho.com.br/prova/';
+        const novolinkUrl = metadeUrl + nameUrl;
+        setEditLinkUrl(novolinkUrl);
         setQuestoes({
             treino1: prova.treino1 || [],
             treino2: prova.treino2 || [],
@@ -43,9 +47,12 @@ const Provas = () => {
         try {
             const token = localStorage.getItem('token');
             const config = { headers: { Authorization: `${token}` } };
+            const metadeUrl = 'https://app.cestsegtrabalho.com.br/prova/'
+            const novolinkUrl = metadeUrl + editUrlProva;
             const response = await axios.patch(`https://api.comunhaorara.com/treino/${editProvaId}`, {
                 nameProva: editTitulo,
                 nameUrl: editUrlProva,
+                linkUrl: novolinkUrl,
                 treino1: questoes.treino1,
                 treino2: questoes.treino2,
                 treino3: questoes.treino3,
@@ -57,6 +64,8 @@ const Provas = () => {
             setEditTitulo('');
             setEditUrlProva('');
             setQuestoes({});
+            console.log('Prova atualizada: ', novolinkUrl);
+            
         } catch (error) {
             console.error('Erro ao atualizar prova:', error);
         }
@@ -143,12 +152,32 @@ const Provas = () => {
                                     onChange={(e) => setEditTitulo(e.target.value)}
                                     placeholder="Título da Prova"
                                 />
-                                <input
+                                {/* <input
                                     type="text"
                                     value={editUrlProva}
                                     onChange={(e) => setEditUrlProva(e.target.value)}
                                     placeholder="URL da Prova"
+                                /> */}
+                                <input
+                                    type="text"
+                                    value={editUrlProva}
+                                    onChange={(e) => {
+                                        // Obtém o valor digitado
+                                        let valor = e.target.value;
+
+                                        // Remove espaços, acentos, ç, caracteres especiais e letras maiúsculas
+                                        valor = valor
+                                        .normalize('NFD') // separa acentos das letras
+                                        .replace(/[\u0300-\u036f]/g, '') // remove acentos
+                                        .replace(/[^a-z0-9]/g, '') // mantém apenas letras minúsculas e números
+                                        .toLowerCase(); // garante que fique tudo minúsculo
+
+                                        // Atualiza o estado com o valor filtrado
+                                        setEditUrlProva(valor);
+                                    }}
+                                    placeholder="URL da Prova"
                                 />
+
                                 <br />
                                 {['treino1', 'treino2', 'treino3', 'treino4', 'treino5'].map(treinoType => (
                                     <div key={treinoType}>
