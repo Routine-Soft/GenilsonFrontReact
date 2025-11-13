@@ -57,10 +57,10 @@ const Prova = () => {
     };
 
     const enviarDados = async () => {
-        // localStorage.setItem('nomeAluno', name);
-        // localStorage.setItem('emailAluno', email);
-        // localStorage.setItem('whatsappAluno', whatsapp);
-        // localStorage.setItem('cpfAluno', cpf);
+        localStorage.setItem('nomeAluno', name);
+        localStorage.setItem('emailAluno', email);
+        localStorage.setItem('whatsappAluno', whatsapp);
+        localStorage.setItem('cpfAluno', cpf);
         try {
             const response = await axios.post('https://api.comunhaorara.com/historicoprova/criar', {
                 tituloProva: nomeCurso,
