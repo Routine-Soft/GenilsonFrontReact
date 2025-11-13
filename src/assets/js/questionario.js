@@ -57,6 +57,10 @@ const Prova = () => {
     };
 
     const enviarDados = async () => {
+        // localStorage.setItem('nomeAluno', name);
+        // localStorage.setItem('emailAluno', email);
+        // localStorage.setItem('whatsappAluno', whatsapp);
+        // localStorage.setItem('cpfAluno', cpf);
         try {
             const response = await axios.post('https://api.comunhaorara.com/historicoprova/criar', {
                 tituloProva: nomeCurso,
@@ -65,44 +69,46 @@ const Prova = () => {
                 whatsapp: whatsapp,
                 cpf: cpf
             });
-            console.log('Prova Concluída');
+            console.log('Prova Concluída', name);
+            console.log('Nome do Aluno:', name);
         } catch (error) {
             console.error('Erro ao acompanhar prova concluída: ', error);
         }
     };
+    console.log('Nome do Aluno fora:', name);
 
-    const EnviarEmail = async () => {
-        const ebody = `
-        <div><img src="https://cestsegtrabalho.com.br/wp-content/uploads/2022/09/logo-e1663851774609.png" width="100%"></div>
-        <br><br>
-        <h3>O aluno ${name} concluiu a prova de ${nomeCurso} conforme treinamento com nota 10</h3>
-        <br><br>
-        <h3 style="margin: 0%;">Nome do aluno:</h3>${name}
-        <br><br>
-        <h3>Nome do curso: BOBCAT</h3>
-        <h3 style="margin: 0%;">Whatsapp do aluno:</h3>${whatsapp}
-        <br><br>
-        <h3 style="margin: 0%;">Email do aluno: </h3>${email}
-        <br><br>
-        <h3 style="margin: 0%;">CPF do aluno: </h3>${cpf}
-        <br><br>
-        <h3 style="margin: 0%;">Nome da Empresa (Opcional): </h3>${nome_empresa}
-        <br><br>
-        <h3 style="font-weight: bold;">Data: </h3>${dataGenilson};
-        `;
+    // const EnviarEmail = async () => {
+    //     const ebody = `
+    //     <div><img src="https://cestsegtrabalho.com.br/wp-content/uploads/2022/09/logo-e1663851774609.png" width="100%"></div>
+    //     <br><br>
+    //     <h3>O aluno ${name} concluiu a prova de ${nomeCurso} conforme treinamento com nota 10</h3>
+    //     <br><br>
+    //     <h3 style="margin: 0%;">Nome do aluno:</h3>${name}
+    //     <br><br>
+    //     <h3>Nome do curso: BOBCAT</h3>
+    //     <h3 style="margin: 0%;">Whatsapp do aluno:</h3>${whatsapp}
+    //     <br><br>
+    //     <h3 style="margin: 0%;">Email do aluno: </h3>${email}
+    //     <br><br>
+    //     <h3 style="margin: 0%;">CPF do aluno: </h3>${cpf}
+    //     <br><br>
+    //     <h3 style="margin: 0%;">Nome da Empresa (Opcional): </h3>${nome_empresa}
+    //     <br><br>
+    //     <h3 style="font-weight: bold;">Data: </h3>${dataGenilson};
+    //     `;
 
-        window.Email.send({
-            SecureToken: "58bc9bda-20b7-472d-9522-6edc923b7f69",
-            To: 'cestsegtrabalho@gmail.com',
-            From: "cestsegtrabalho@gmail.com",
-            Subject: "O aluno concluiu a prova",
-            Body: ebody
-        }).then(
-            //message => alert("Email enviado com sucesso!")
-        ).catch(
-            error => alert("Erro ao enviar o email: " + error)
-        );
-    };
+    //     window.Email.send({
+    //         SecureToken: "58bc9bda-20b7-472d-9522-6edc923b7f69",
+    //         To: 'cestsegtrabalho@gmail.com',
+    //         From: "cestsegtrabalho@gmail.com",
+    //         Subject: "O aluno concluiu a prova",
+    //         Body: ebody
+    //     }).then(
+    //         //message => alert("Email enviado com sucesso!")
+    //     ).catch(
+    //         error => alert("Erro ao enviar o email: " + error)
+    //     );
+    // };
 
     const corrigir = () => {
         let score = 0;
@@ -143,7 +149,7 @@ const Prova = () => {
         // Verifica se todos os campos estão preenchidos
         if (name && email && whatsapp && cpf && dataGenilson) {
             setShowPopup(false); // Fecha o popup
-            EnviarEmail();
+            // EnviarEmail();
             enviarDados();
         } else {
             alert("Por favor, preencha todos os campos.");

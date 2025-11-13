@@ -18,8 +18,8 @@ const Aprovado = () => {
         html2pdf().from(element).save('prova.pdf');
     };
 
-    var name = localStorage.getItem("name");
-    var cpf = localStorage.getItem("cpf");
+    var name = localStorage.getItem("nomeAluno");
+    var cpf = localStorage.getItem("cpfAluno");
     
     return(
         <div id="div-aprovado">
