@@ -18,7 +18,7 @@ const Provas = () => {
 
     const fetchProvas = async () => {
         try {
-            const response = await axios.get('https://api.comunhaorara.com/treino/buscar');
+            const response = await axios.get('https://genilson-next.vercel.app/api/treino/buscar');
             setProvas(response.data);
             setNameUrl(response.data.nameUrl)
             console.log('teste', response.data.nameUrl)
@@ -49,7 +49,7 @@ const Provas = () => {
             const config = { headers: { Authorization: `${token}` } };
             const metadeUrl = 'https://app.cestsegtrabalho.com.br/prova/'
             const novolinkUrl = metadeUrl + editUrlProva;
-            const response = await axios.patch(`https://api.comunhaorara.com/treino/${editProvaId}`, {
+            const response = await axios.patch(`https://genilson-next.vercel.app/api/treino/${editProvaId}`, {
                 nameProva: editTitulo,
                 nameUrl: editUrlProva,
                 linkUrl: novolinkUrl,
@@ -75,7 +75,7 @@ const Provas = () => {
         try {
             const token = localStorage.getItem('token');
             const config = { headers: { Authorization: `${token}` } };
-            await axios.delete(`https://api.comunhaorara.com/treino/${id}`, config);
+            await axios.delete(`https://genilson-next.vercel.app/api/treino/${id}`, config);
             setProvas(provas.filter(prova => prova._id !== id));
         } catch (error) {
             console.error('Erro ao deletar prova:', error);

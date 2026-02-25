@@ -24,7 +24,7 @@ const Cursos = () => {
 
     const fetchCursos = async () => {
         try {
-            const response = await axios.get('https://api.comunhaorara.com/curso/buscar');
+            const response = await axios.get('https://genilson-next.vercel.app/api/curso/buscar');
             setCursos(response.data);
         } catch (error) {
             console.error('Erro ao buscar cursos:', error);
@@ -46,7 +46,7 @@ const Cursos = () => {
             const config = { headers: { Authorization: `${token}` } };
             const metadeUrl = 'https://app.cestsegtrabalho.com.br/curso/';
             const novolinkUrl = metadeUrl + editNameUrl;
-            const response = await axios.patch(`https://api.comunhaorara.com/curso/${editCursoId}`, { titulo: editTitulo, conteudo: editConteudo, nameUrl: editNameUrl, linkUrl: novolinkUrl, urlvideo: editUrlVideo }, config);
+            const response = await axios.patch(`https://genilson-next.vercel.app/api/curso/${editCursoId}`, { titulo: editTitulo, conteudo: editConteudo, nameUrl: editNameUrl, linkUrl: novolinkUrl, urlvideo: editUrlVideo }, config);
             setCursos(cursos.map(curso => curso._id === editCursoId ? response.data : curso));
             setEditCursoId(null);
             setEditTitulo('');
@@ -63,7 +63,7 @@ const Cursos = () => {
         try {
             const token = localStorage.getItem('token');
             const config = { headers: { Authorization: `${token}` } };
-            await axios.delete(`https://api.comunhaorara.com/curso/${id}`, config);
+            await axios.delete(`https://genilson-next.vercel.app/api/curso/${id}`, config);
             setCursos(cursos.filter(curso => curso._id !== id));
         } catch (error) {
             console.error('Erro ao deletar curso:', error);

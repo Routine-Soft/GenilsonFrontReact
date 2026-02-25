@@ -14,7 +14,7 @@ const ProvaSimples = () => {
 
     const fetchNameUrl = async () => {
         try {
-            const response = await axios.get(`https://api.comunhaorara.com/prova/${nameUrl}`);
+            const response = await axios.get(`https://genilson-next.vercel.app/api/prova/${nameUrl}`);
             setData(response.data);
             setnomeCurso(response.data.nameProva)
         } catch (error) {

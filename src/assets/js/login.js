@@ -18,7 +18,7 @@ const Login = () => {
     const [message, setMessage] = useState('')
 
     const handleLogin = () => {
-      axios.post("https://api.comunhaorara.com/user/login", { email, password })
+      axios.post("https://genilson-next.vercel.app/api/user/login", { email, password })
         .then((response) => {
           const { token, id, name, username, phone } = response.data;
           setToken(token);
@@ -41,8 +41,15 @@ const Login = () => {
           setMessage(response.data.message)
         })
         .catch((error) => {
-          setMessage(error.response.data.message)
+          if (error.response) {
+            setMessage(error.response.data.message);
+          } else if (error.request) {
+            setMessage("Servidor não respondeu (possível erro de CORS)");
+          } else {
+            setMessage("Erro inesperado ao fazer login");
+          }
         });
+
     };
 
     const RedefinirPage = () => {

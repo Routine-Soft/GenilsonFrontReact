@@ -17,7 +17,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post(`https://api.comunhaorara.com/reset-password/${token}`, { password });
+      const response = await axios.post(`https://genilson-next.vercel.app/api/reset-password/${token}`, { password });
       setMessage(response.data.message);
       // Redirect to login page after successful password reset
       setTimeout(() => {

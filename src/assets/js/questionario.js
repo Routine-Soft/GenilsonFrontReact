@@ -27,7 +27,7 @@ const Prova = () => {
 
     const fetchNameUrl = async () => {
         try {
-            const response = await axios.get(`https://api.comunhaorara.com/prova/${nameUrl}`);
+            const response = await axios.get(`https://genilson-next.vercel.app/api/prova/${nameUrl}`);
             setData(response.data);
             setnomeCurso(response.data.nameProva)
         } catch (error) {
@@ -62,7 +62,7 @@ const Prova = () => {
         localStorage.setItem('whatsappAluno', whatsapp);
         localStorage.setItem('cpfAluno', cpf);
         try {
-            const response = await axios.post('https://api.comunhaorara.com/historicoprova/criar', {
+            const response = await axios.post('https://genilson-next.vercel.app/api/historicoprova/criar', {
                 tituloProva: nomeCurso,
                 name: name,
                 email: email,
@@ -210,7 +210,7 @@ const Prova = () => {
                             />
                             <input 
                                 type="text" 
-                                placeholder="D a t a"
+                                placeholder="D a t a da Prova"
                                 translate="no"
                                 autoComplete="off"
                                 name="notranslate-dataGenilson"

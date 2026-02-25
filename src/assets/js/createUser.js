@@ -17,7 +17,7 @@ const CreateUser = () => {
         const checkUsernameAvailability = async () => {
             if (username) {
                 try {
-                    const response = await axios.get(`https://api.comunhaorara.com/user/check-username/${username}`);
+                    const response = await axios.get(`https://genilson-next.vercel.app/api/user/check-username/${username}`);
                     setIsUsernameAvailable(response.data.available);
                 } catch (error) {
                     console.error('Erro ao verificar disponibilidade do username:', error);
@@ -31,7 +31,7 @@ const CreateUser = () => {
     const creteUser = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`https://api.comunhaorara.com/user/criar`, {name, phone, email, username, password})
+            const response = await axios.post(`https://genilson-next.vercel.app/api/user/criar`, {name, phone, email, username, password})
             localStorage.setItem('AlunoUserName', name)
             localStorage.setItem('AlunoUserEmail', email)
             localStorage.setItem('AlunoUserid', response.data.user._id)

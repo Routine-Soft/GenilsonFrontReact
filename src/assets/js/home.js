@@ -38,38 +38,23 @@ const Home = () => {
         setComponente(<TreinoCompleto />);
     }
 
-    // Pega os dados da loja
+    // Pega os dados 
     const fetchData = async () => {
         try {
-            const responseUser = await axios.get(`https://api.comunhaorara.com/${username}`);
+            const responseUser = await axios.get(`https://genilson-next.vercel.app/api/user/${username}`);
             setUserData(responseUser.data);
             console.log('parametro: ', username)
         } catch (error) {
-            console.error("Erro ao buscar os dados da loja: ", error);
+            console.error("Erro ao buscar os dados: ", error);
         }
     };
-
-    const fetchDataToken = async () => {
-        try {
-            const responseUserToken = await axios.get(`https://api.comunhaorara.com/protected/user/buscar`, {
-                headers: { Authorization: `${localStorage.getItem("token")}` }
-            })
-            setIsLoggedIn(true);
-            console.log('Rota acessada com sucesso');
-        } catch (error) {
-            setIsLoggedIn(false);
-            console.error('Erro ao acessar rota');
-        }
-    }
 
     const clearLocalStorage = () => {
         localStorage.clear();
         window.location.reload()
     };
-    
 
     useEffect(() => {
-        fetchDataToken();
         fetchData();
     }, [username]);
 
@@ -83,21 +68,6 @@ const Home = () => {
 
             {userData ? (
                 <div>
-                    {/* <div className="user-profile">
-                        <div className="profile-info">
-                            <FaUserCircle className="profile-icon" />
-                            <div className="user-info">
-                                <h3>{userData.name}</h3>
-                                <p>@{userData.username}</p>
-                            </div>
-                        </div>
-                        <div className="settings">
-                            <button className="bottom-bar-button" onClick={clearLocalStorage}>
-                            <IoIosLogOut className="profile-icon-logout" />
-                            </button>
-                        </div>
-                    </div> */}
-
                     {componente}
                     <div className="bottom-bar">
                         

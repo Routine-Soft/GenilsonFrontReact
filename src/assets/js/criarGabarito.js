@@ -13,29 +13,29 @@ const CreateGabarito = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [token, setToken] = useState(null); // Adiciona o estado para armazenar o token
 
-    const fetchDataToken = async () => {
-        try {
-            const savedToken = localStorage.getItem("token");
-            if (savedToken) {
-                setToken(savedToken); // Salva o token no estado
-                const responseUserToken = await axios.get(`https://api.comunhaorara.com/protected/user/buscar`, {
-                    headers: { Authorization: `${savedToken}` }
-                });
-                setIsLoggedIn(true);
-                console.log('Rota acessada com sucesso');
-            } else {
-                console.error('Token não encontrado');
-                setIsLoggedIn(false);
-            }
-        } catch (error) {
-            setIsLoggedIn(false);
-            console.error('Erro ao acessar rota', error);
-        }
-    };
+    // const fetchDataToken = async () => {
+    //     try {
+    //         const savedToken = localStorage.getItem("token");
+    //         if (savedToken) {
+    //             setToken(savedToken); // Salva o token no estado
+    //             const responseUserToken = await axios.get(`https://genilson-next.vercel.app/api/protected/user/buscar`, {
+    //                 headers: { Authorization: `${savedToken}` }
+    //             });
+    //             setIsLoggedIn(true);
+    //             console.log('Rota acessada com sucesso');
+    //         } else {
+    //             console.error('Token não encontrado');
+    //             setIsLoggedIn(false);
+    //         }
+    //     } catch (error) {
+    //         setIsLoggedIn(false);
+    //         console.error('Erro ao acessar rota', error);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchDataToken();
-    }, []);
+    // useEffect(() => {
+    //     fetchDataToken();
+    // }, []);
 
     const createCurso = async () => {
         if (!token) {
@@ -51,7 +51,7 @@ const CreateGabarito = () => {
         const cursoData = { titulo, conteudogabarito };
 
         try {
-            await axios.post('https://api.comunhaorara.com/gabarito/criar', cursoData, config);
+            await axios.post('https://genilson-next.vercel.app/api/gabarito/criar', cursoData, config);
             console.log('Curso cadastrado com sucesso');
             window.location.reload();
         } catch (error) {

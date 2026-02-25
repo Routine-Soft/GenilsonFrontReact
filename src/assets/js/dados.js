@@ -26,11 +26,11 @@ const Dados = () => {
     // Fetch de dados do usuário e permissões
     const fetchData = async () => {
         try {
-            const responseUser = await axios.get(`https://api.comunhaorara.com/${username}`);
+            const responseUser = await axios.get(`https://genilson-next.vercel.app/api/user/${username}`);
             setUserData(responseUser.data);
-            const responseToken = await axios.get(`https://api.comunhaorara.com/protected/user/buscar`, {
-                headers: { Authorization: `${localStorage.getItem("token")}` }
-            });
+            // const responseToken = await axios.get(`https://genilson-next.vercel.app/api/protected/user/buscar`, {
+            //     headers: { Authorization: `${localStorage.getItem("token")}` }
+            // });
             setIsLoggedIn(true);
         } catch (error) {
             console.error("Erro ao buscar dados do usuário:", error);
@@ -40,10 +40,10 @@ const Dados = () => {
     // // Fetch de perimetrias e dobras cutâneas
     // const fetchMetrics = async () => {
     //     try {
-    //         const responsePerimetrias = await axios.get(`https://api.comunhaorara.com/perimetria/${userData._id}`);
+    //         const responsePerimetrias = await axios.get(`https://genilson-next.vercel.app/api/perimetria/${userData._id}`);
     //         setPerimetrias(responsePerimetrias.data.reverse());
 
-    //         const responseDobrasCutaneas = await axios.get(`https://api.comunhaorara.com/dobrascutaneas/${userData._id}`);
+    //         const responseDobrasCutaneas = await axios.get(`https://genilson-next.vercel.app/api/dobrascutaneas/${userData._id}`);
     //         setDobrasCutaneas(responseDobrasCutaneas.data.reverse());
     //     } catch (error) {
     //         console.error("Erro ao buscar métricas do usuário:", error);
@@ -54,7 +54,7 @@ const Dados = () => {
     const handleUpdateUserData = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.patch("https://api.comunhaorara.com/protected/userstore/editar", newUserData, {
+            const response = await axios.patch("https://genilson-next.vercel.app/api/protected/userstore/editar", newUserData, {
                 headers: { Authorization: `${localStorage.getItem("token")}` }
             });
             setUserData(response.data.userData);

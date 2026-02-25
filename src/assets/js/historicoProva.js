@@ -15,7 +15,7 @@ const History = () => {
     // Pega os dados da loja
     const fetchLoja = async () => {
         try {
-            const responseUser = await axios.get(`https://api.comunhaorara.com/${username}`);
+            const responseUser = await axios.get(`https://genilson-next.vercel.app/api/user/${username}`);
             setUserData(responseUser.data);
         } catch (error) {
             console.error("Erro ao buscar os dados da loja: ", error);
@@ -25,7 +25,7 @@ const History = () => {
     // Pega as dobras cutâneas do usuário
     const fetchDobrasCutaneas = async (userId) => {
         try {
-            const responseDobrasCutaneas = await axios.get(`https://api.comunhaorara.com/historicoprova/get`);
+            const responseDobrasCutaneas = await axios.get(`https://genilson-next.vercel.app/api/historicoprova/get`);
             const dobrasDoUsuario = responseDobrasCutaneas.data
                 .filter((d) => d.userId === userId)
                 .reverse();

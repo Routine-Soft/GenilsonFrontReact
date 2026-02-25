@@ -27,9 +27,9 @@ const CreateTreino = () => {
 
     const fetchDataToken = async () => {
         try {
-            const responseUserToken = await axios.get(`https://api.comunhaorara.com/protected/user/buscar`, {
-                headers: { Authorization: `${localStorage.getItem("token")}` }
-            });
+            // const responseUserToken = await axios.get(`https://genilson-next.vercel.app/api/protected/user/buscar`, {
+            //     headers: { Authorization: `${localStorage.getItem("token")}` }
+            // });
             setIsLoggedIn(true);
             console.log('Rota acessada com sucesso');
         } catch (error) {
@@ -54,9 +54,9 @@ const CreateTreino = () => {
     //             headers: { Authorization: token }
     //         };
 
-    //         const metadeUrl = 'http://localhost:3000/prova/'
+    //         const metadeUrl = 'https://genilson-next.vercel.app/prova/'
     //         const urlprova = { urlprova: metadeUrl + nameUrl}
-    //         const response = await axios.post('https://api.comunhaorara.com/prova/criar', urlprova, config)
+    //         const response = await axios.post('https://genilson-next.vercel.app/api/prova/criar', urlprova, config)
     //         console.log('Deu certo', urlprova)
     //         console.log('Deu certo 2', response)
     //     } catch (error) {
@@ -84,7 +84,7 @@ const CreateTreino = () => {
             const treinoData = { treino1, treino2, treino3, treino4, treino5, treino6, treino7, userid: Userid, nameUrl, nameProva, linkUrl }; // Inclui nameUrl
             //createUrlProva()
             try {
-                await axios.post('https://api.comunhaorara.com/treino/criar', treinoData, config);
+                await axios.post('https://genilson-next.vercel.app/api/treino/criar', treinoData, config);
                 console.log('Treino cadastrado com sucesso');
                 window.location.reload()
             } catch (error) {

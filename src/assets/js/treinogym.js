@@ -10,7 +10,7 @@ const TreinoGym = () => {
     
     const fetchUserData = async () => {
         try {
-            const responseUser = await axios.get(`https://api.comunhaorara.com/${username}`);
+            const responseUser = await axios.get(`https://genilson-next.vercel.app/api/user/${username}`);
             setUserData(responseUser.data);
         } catch (error) {
             console.error("Erro ao buscar os dados da loja: ", error);
@@ -19,7 +19,7 @@ const TreinoGym = () => {
 
     const fetchTreinos = async () => {
         try {
-            const response = await axios.get(`https://api.comunhaorara.com/treinogym/buscar`)
+            const response = await axios.get(`https://genilson-next.vercel.app/api/treinogym/buscar`)
             setTreinos(response.data);
         } catch (error) {
             console.error('Erro ao buscar treinos: ', error);

@@ -22,10 +22,10 @@ const Curso = () => {
     // Função para buscar dados do curso
     const fetchCurso = async () => {
         try {
-            const response = await axios.get(`https://api.comunhaorara.com/curso/${nameUrl}`);
+            const response = await axios.get(`https://genilson-next.vercel.app/api/curso/url/${nameUrl}`);
             setCurso(response.data);
         } catch (error) {
-            setError('Erro ao buscar os dados do curso');
+            setError('Erro ao buscar os dados do curso', error.response ? error.response.data : error.message);
             console.error('Erro ao buscar os dados do curso:', error);
         }
     };
@@ -42,7 +42,7 @@ const Curso = () => {
     // Funções para enviar dados e email
     const enviarDados = async () => {
         try {
-            const response = await axios.post('https://api.comunhaorara.com/historicocurso/criar', {
+            const response = await axios.post('https://genilson-next.vercel.app/api/historicocurso/criar', {
                 tituloCurso: curso.titulo,
                 name: name,
                 email: email,
@@ -214,7 +214,7 @@ const Curso = () => {
                             />
                             <input 
                             type="text" 
-                            placeholder="D a t a"
+                            placeholder="D a t a do Curso"
                             name="$Data"
                             value={dataGenilson} 
                             onChange={(e) => setDataGenilson(e.target.value)} 

@@ -8,7 +8,7 @@ const ResetPasswordRequest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://api.comunhaorara.com/request-reset-password', { email });
+      const response = await axios.post('https://genilson-next.vercel.app/api/request-reset-password', { email });
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response.data.message);
