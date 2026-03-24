@@ -88,13 +88,40 @@ const Curso = () => {
         );
     };
 
-    const getYoutubeVideoId = (url) => {
-        if (!url) return null;
+    // const getYoutubeVideoId = (url) => {
+    //     if (!url) return null;
     
-        const regex =
-            /(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([^\s&?]+)/;
-        const match = url.match(regex);
-        return match ? match[1] : null;
+    //     const regex =
+    //         /(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([^\s&?]+)/;
+    //     const match = url.match(regex);
+    //     return match ? match[1] : null;
+    // };
+
+    // Detects and converts video URLs to embed format (YouTube or Google Drive)
+    const getEmbedUrl = (url) => {
+        if (!url) return null;
+
+        // YouTube
+        if (url.includes("youtube.com") || url.includes("youtu.be")) {
+            const regex = /(?:youtube\.com\/(?:embed\/|watch\?v=|shorts\/)|youtu\.be\/)([^\s&?]+)/;
+            const match = url.match(regex);
+
+
+            if (!match) return null;
+
+            return `https://www.youtube.com/embed/${match[1]}`;
+        }
+
+        // Google Drive
+        if (url.includes("drive.google.com")) {
+            const match = url.match(/\/d\/([^/]+)/);
+
+            if (!match) return null;
+
+            return `https://drive.google.com/file/d/${match[1]}/preview`;
+        }
+
+        return null;
     };
     
 
@@ -112,8 +139,6 @@ const Curso = () => {
         }
     };
 
-
-
     useEffect(() => {
         fetchCurso();
     }, [nameUrl]);
@@ -125,6 +150,9 @@ const Curso = () => {
     if (!curso) {
         return <div>Carregando...</div>;
     }
+
+    // ✅ agora é seguro usar
+    const embedUrl = getEmbedUrl(curso?.urlvideo);
 
     return (
         <div id='conteudo-cursoFather'>
@@ -141,7 +169,7 @@ const Curso = () => {
             </div>
 
             <h1 id='conteudoCurso-titulo'>{curso.titulo}</h1>
-            {curso.urlvideo && getYoutubeVideoId(curso.urlvideo) && (
+            {/* {curso.urlvideo && getYoutubeVideoId(curso.urlvideo) && (
             <div style={{ margin: '20px 0', textAlign: 'center' }}>
                 <iframe
                     width="100%"
@@ -153,6 +181,21 @@ const Curso = () => {
                     allowFullScreen
                 ></iframe>
             </div>
+            )} */}
+
+            {/* ✅ VIDEO UNIVERSAL */}
+            {embedUrl && (
+                <div style={{ margin: '20px 0', textAlign: 'center' }}>
+                    <iframe
+                        width="100%"
+                        height="315"
+                        src={embedUrl}
+                        title="Video player"
+                        frameBorder="0"
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                    />
+                </div>
             )}
 
             <div dangerouslySetInnerHTML={{ __html: curso.conteudo }} />
@@ -253,61 +296,6 @@ const Curso = () => {
                             />
                             <button type="submit" id="começar-btn">Enviar</button>
                         </form>
-                        {/* <form onSubmit={handleSubmit}>
-                            <input 
-                                type="text" 
-                                placeholder="Nome" 
-                                value={name} 
-                                onChange={(e) => setName(e.target.value)} 
-                                required 
-                            />
-                            <input 
-                                type="email" 
-                                placeholder="Email" 
-                                value={email} 
-                                onChange={(e) => setEmail(e.target.value)} 
-                                required 
-                            />
-                            <input 
-                                type="text" 
-                                placeholder="WHATSAPP" 
-                                value={whatsapp} 
-                                onChange={(e) => setWhatsapp(e.target.value)} 
-                                required 
-                            />
-                            <input 
-                                type="text" 
-                                placeholder="CPF" 
-                                value={cpf} 
-                                onChange={(e) => setCpf(e.target.value)} 
-                                required 
-                            />
-                            <input 
-                                type="text" 
-                                placeholder="Nome da Empresa (Opcional)" 
-                                value={nome_empresa} 
-                                onChange={(e) => setNomeEmpresa(e.target.value)} 
-                            />
-                            <input 
-                            type="text" 
-                            placeholder="D a t a"
-                            value={dataGenilson} 
-                            onChange={(e) => setDataGenilson(e.target.value)} 
-                            required 
-                            translate="no"
-                            autoComplete="off"
-                            name="notranslate-dataGenilson"
-                            className="notranslate"
-                            />
-                            <input 
-                                type="text" 
-                                placeholder="Digite a senha" 
-                                value={senha} 
-                                onChange={(e) => setSenha(e.target.value)} 
-                                required 
-                            /><br></br>
-                            <button type="submit" id="começar-btn">Enviar</button>
-                        </form> */}
                     </div>
                 </div>
             )}
