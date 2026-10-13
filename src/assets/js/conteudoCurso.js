@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../img/logo.png';
 import { Helmet } from 'react-helmet';
+import { validarSenhaAcesso } from '../../modules/senhaAcesso/senhaAcesso.api';
 
 const Curso = () => {
     const { nameUrl } = useParams();
@@ -30,13 +31,18 @@ const Curso = () => {
         }
     };
 
-    // Validação da senha
-    function validarSenha() {
-        if (senha.trim() !== '123') {
-            alert("Senha incorreta! Tente novamente.");
-            return false; // Impede o envio do formulário
+    // Validação da senha (a senha do estudo fica no backend e é trocada no painel /desenvolvedor)
+    async function validarSenha() {
+        try {
+            if (!(await validarSenhaAcesso('estudo', senha))) {
+                alert("Senha incorreta! Tente novamente.");
+                return false; // Impede o envio do formulário
+            }
+            return true; // Permite o envio se a senha estiver correta
+        } catch (error) {
+            alert("Não foi possível verificar a senha. Confira sua internet e tente de novo.");
+            return false;
         }
-        return true; // Permite o envio se a senha estiver correta
     }
 
     // Funções para enviar dados e email
@@ -125,9 +131,9 @@ const Curso = () => {
     };
     
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validarSenha()) {
+        if (!(await validarSenha())) {
             return; // Interrompe o envio se a senha estiver errada
         }
         if (name && email && whatsapp && cpf && dataGenilson) {
@@ -207,12 +213,13 @@ const Curso = () => {
                         <form 
                             action="https://api.staticforms.xyz/submit"
                             method="post"
-                            onSubmit={(e) => {
-                                if (!validarSenha()) {
-                                    e.preventDefault(); // Impede o envio se a senha estiver incorreta
-                                } else {
-                                    setShowPopup(false); // Fecha o popup se senha for válida
+                            onSubmit={async (e) => {
+                                e.preventDefault(); // Espera a conferência da senha antes de enviar
+                                const form = e.currentTarget;
+                                if (await validarSenha()) {
                                     enviarDados();
+                                    form.submit(); // Envia o formulário normalmente se a senha for válida
+                                    setShowPopup(false); // Fecha o popup se senha for válida
                                 }
                             }}
                         >

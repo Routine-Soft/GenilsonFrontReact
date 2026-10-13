@@ -12,6 +12,7 @@ import Curso from "./assets/js/conteudoCurso";
 import CursoSimples from "./assets/js/conteudoCursoOPEN";
 import CreateUser from "./assets/js/createUser";
 import isTokenValid from "./helps/useAuth";
+import Desenvolvedor from "./modules/desenvolvedor/components/Desenvolvedor";
 
 import './assets/css/home.css';
 import './assets/css/history.css';
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/redefinir-senha" element={<ResetPasswordRequest />} />
           <Route path="/loginPage" element={<Login />} />
           <Route path="/createauser" element={<CreateUser />} />
+          <Route path="/desenvolvedor" element={<Desenvolvedor />} />
         </Routes>
       </AuthRedirect>
     </Router>

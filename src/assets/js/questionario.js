@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Aprovado from "./aprovado";
 import logo from '../img/logo.png';
 import { Helmet } from "react-helmet";
+import { validarSenhaAcesso } from "../../modules/senhaAcesso/senhaAcesso.api";
 
 
 const Prova = () => {
@@ -35,13 +36,18 @@ const Prova = () => {
         }
     };
     
-    // Validação da senha
-    function validarSenha() {
-        if (senha.trim() !== '456') {
-            alert("Senha incorreta! Tente novamente.");
-            return false; // Impede o envio do formulário
+    // Validação da senha (a senha da prova fica no backend e é trocada no painel /desenvolvedor)
+    async function validarSenha() {
+        try {
+            if (!(await validarSenhaAcesso('prova', senha))) {
+                alert("Senha incorreta! Tente novamente.");
+                return false; // Impede o envio do formulário
+            }
+            return true; // Permite o envio se a senha estiver correta
+        } catch (error) {
+            alert("Não foi possível verificar a senha. Confira sua internet e tente de novo.");
+            return false;
         }
-        return true; // Permite o envio se a senha estiver correta
     }
 
     const handleOptionChange = (event) => {
@@ -141,9 +147,9 @@ const Prova = () => {
 
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validarSenha()) {
+        if (!(await validarSenha())) {
             return; // Interrompe o envio se a senha estiver errada
         }
         // Verifica se todos os campos estão preenchidos
