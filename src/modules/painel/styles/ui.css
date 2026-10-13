@@ -99,6 +99,7 @@
 
 .cs .field {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 7px;
   min-width: 0;
 }
@@ -538,6 +539,8 @@
   --ck-border-radius: var(--radius-md);
   --ck-font-size-base: 0.95rem;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .cs .ck-editor__editable_inline {

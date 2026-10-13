@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { registrarApp } from './utils/instalarApp';
+
+// Antes do React: o aviso de "pode instalar" do navegador pode chegar cedo
+registrarApp();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

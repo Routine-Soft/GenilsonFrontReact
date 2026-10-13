@@ -2,6 +2,7 @@ import { LuLogOut, LuX } from 'react-icons/lu';
 import { iniciais } from '../painel.utils';
 import Marca from './shared/Marca';
 import Preferencias from './shared/Preferencias';
+import BotaoInstalar from './shared/BotaoInstalar';
 import { SECOES } from './secoes';
 
 const GRUPOS = ['Principal', 'Alunos', 'Conteúdo'];
@@ -41,6 +42,7 @@ const Sidebar = ({ aba, irPara, nome, email, aberto, aoFechar, aoSair, preferenc
         </nav>
 
         <div className="sidebar__rodape">
+            <BotaoInstalar />
             <Preferencias preferencias={preferencias} />
 
             <div className="sidebar__usuario">

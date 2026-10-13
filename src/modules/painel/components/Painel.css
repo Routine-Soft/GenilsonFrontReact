@@ -314,6 +314,21 @@
   border-color: transparent;
 }
 
+/* ---------- Instalar aplicativo ---------- */
+
+.cs .sidebar__instalar {
+  color: var(--sidebar-text-forte);
+  background: var(--sidebar-hover);
+  border-color: var(--sidebar-borda);
+  animation: csFadeIn 0.4s var(--ease) backwards;
+}
+
+.cs .sidebar__instalar:hover:not(:disabled) {
+  color: var(--sidebar-ativo-text);
+  background: var(--sidebar-ativo-bg);
+  border-color: transparent;
+}
+
 /* ---------- Tema e tamanho da letra ---------- */
 
 .cs .preferencias {

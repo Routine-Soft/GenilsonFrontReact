@@ -1,0 +1,17 @@
+{
+  "name": "CestSeg Trabalho · Painel de treinamentos",
+  "short_name": "CestSeg",
+  "description": "Cursos, provas e alunos da CestSeg Trabalho",
+  "lang": "pt-BR",
+  "id": "/painel",
+  "start_url": "/painel",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbfaf3",
+  "theme_color": "#00803a",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
