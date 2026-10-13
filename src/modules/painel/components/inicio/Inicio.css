@@ -1,0 +1,447 @@
+/* ---------- Boas-vindas ---------- */
+
+.cs .inicio-boasvindas {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 24px;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: clamp(22px, 3.5vw, 34px);
+  margin-bottom: 22px;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  animation: csFadeInUp 0.55s var(--ease) backwards;
+}
+
+.cs .inicio-boasvindas__textos {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+}
+
+.cs .inicio-boasvindas__data {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.cs .inicio-boasvindas__titulo {
+  font-size: clamp(1.7rem, 4vw, 2.35rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.cs .inicio-boasvindas__acoes {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Triângulo amarelo e círculo verde, lembrando a logo */
+.cs .inicio-boasvindas__enfeite {
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--marca-verde) 22%, transparent), transparent 60%),
+    linear-gradient(225deg, color-mix(in srgb, var(--marca-amarelo) 40%, transparent) 0 30%, transparent 30%);
+  opacity: 0.9;
+  animation: csFloat 9s ease-in-out infinite;
+}
+
+/* ---------- Indicadores ---------- */
+
+.cs .inicio-indicadores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.cs .indicador {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  padding: 20px;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.cs .indicador:hover {
+  border-color: var(--primary-ring);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.cs .indicador__topo {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cs .indicador__icone {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: var(--on-primary);
+  background: var(--gradient-primary);
+  border-radius: 14px;
+  box-shadow: var(--shadow-primary);
+  transition: transform 0.4s var(--ease-mola);
+}
+
+.cs .indicador:hover .indicador__icone {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.cs .indicador__icone svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cs .indicador:nth-child(2) .indicador__icone {
+  color: #3d2a00;
+  background: linear-gradient(135deg, #ffd84d, var(--marca-amarelo));
+  box-shadow: 0 8px 22px -6px rgba(255, 192, 0, 0.55);
+}
+
+.cs .indicador__valor {
+  font-size: 2.3rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs .indicador__skeleton {
+  width: 70px;
+  height: 2.4rem;
+}
+
+.cs .indicador__rotulo {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.cs .indicador__detalhe {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.cs .indicador__detalhe svg {
+  width: 15px;
+  height: 15px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.cs .indicador:hover .indicador__detalhe svg {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Gráfico da semana ---------- */
+
+.cs .grafico {
+  padding: 22px 22px 18px;
+  margin-bottom: 22px;
+  animation: csFadeInUp 0.55s var(--ease) 0.25s backwards;
+}
+
+.cs .grafico__cabecalho {
+  margin-bottom: 18px;
+}
+
+.cs .grafico__area {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  height: 200px;
+  padding-top: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cs .grafico__coluna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.cs .grafico__trilho {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  cursor: default;
+  border-radius: 6px;
+}
+
+.cs .grafico__trilho:hover,
+.cs .grafico__trilho:focus-visible {
+  background: var(--primary-soft);
+}
+
+.cs .grafico__barra {
+  display: block;
+  width: min(24px, 70%);
+  background: var(--grafico-barra);
+  border-radius: 4px 4px 0 0;
+  transform-origin: bottom;
+  animation: csCrescer 0.8s var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 60ms + 300ms);
+}
+
+@keyframes csCrescer {
+  from { transform: scaleY(0); }
+}
+
+.cs .grafico__valor {
+  position: absolute;
+  left: 50%;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  font-weight: 750;
+  color: var(--text);
+  transform: translateX(-50%);
+}
+
+.cs .grafico__dica {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+  visibility: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition: opacity 0.15s var(--ease), transform 0.15s var(--ease);
+}
+
+.cs .grafico__dica strong {
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.cs .grafico__trilho:hover .grafico__dica,
+.cs .grafico__trilho:focus-visible .grafico__dica {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.cs .grafico__coluna:first-child .grafico__dica {
+  left: 0;
+  transform: translate(0, 4px);
+}
+
+.cs .grafico__coluna:first-child .grafico__trilho:hover .grafico__dica,
+.cs .grafico__coluna:first-child .grafico__trilho:focus-visible .grafico__dica {
+  transform: none;
+}
+
+.cs .grafico__coluna:last-child .grafico__dica {
+  right: 0;
+  left: auto;
+  transform: translate(0, 4px);
+}
+
+.cs .grafico__coluna:last-child .grafico__trilho:hover .grafico__dica,
+.cs .grafico__coluna:last-child .grafico__trilho:focus-visible .grafico__dica {
+  transform: none;
+}
+
+.cs .grafico__skeleton {
+  width: min(24px, 70%);
+  margin-top: auto;
+  border-radius: 4px 4px 0 0;
+}
+
+.cs .grafico__dia {
+  padding-top: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.cs .grafico__dia.is-hoje {
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* ---------- Listas recentes ---------- */
+
+.cs .inicio-listas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.cs .recentes {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  animation: csFadeInUp 0.55s var(--ease) 0.35s backwards;
+}
+
+.cs .recentes__cabecalho {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.cs .recentes__icone {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border-radius: 12px;
+}
+
+.cs .recentes__icone svg {
+  width: 19px;
+  height: 19px;
+}
+
+.cs .recentes__lista {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  padding: 0;
+  margin: 0 0 14px;
+  list-style: none;
+}
+
+.cs .recentes__item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s var(--ease);
+}
+
+.cs .recentes__item:hover {
+  background: var(--surface-2);
+}
+
+.cs .recentes__textos {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.cs .recentes__textos strong {
+  overflow: hidden;
+  font-size: 0.98rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs .recentes__textos > span {
+  overflow: hidden;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs .recentes__quando {
+  flex: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-subtle);
+  text-align: right;
+}
+
+.cs .recentes__vazio {
+  flex: 1;
+  padding: 24px 8px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.cs .recentes__todos {
+  margin-top: auto;
+}
+
+/* ---------- Adapta ao espaço disponível ---------- */
+
+@container (max-width: 900px) {
+  .cs .inicio-indicadores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cs .inicio-listas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container (max-width: 480px) {
+  .cs .inicio-indicadores {
+    gap: 12px;
+  }
+
+  .cs .indicador {
+    padding: 16px;
+  }
+
+  .cs .indicador__valor {
+    font-size: 1.9rem;
+  }
+
+  .cs .inicio-boasvindas__acoes,
+  .cs .inicio-boasvindas__acoes .btn {
+    width: 100%;
+  }
+
+  .cs .recentes__quando {
+    display: none;
+  }
+
+  .cs .grafico {
+    padding: 18px 14px 14px;
+  }
+
+  .cs .grafico__area {
+    gap: 4px;
+  }
+}

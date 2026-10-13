@@ -13,6 +13,7 @@ import CursoSimples from "./assets/js/conteudoCursoOPEN";
 import CreateUser from "./assets/js/createUser";
 import isTokenValid from "./helps/useAuth";
 import Desenvolvedor from "./modules/desenvolvedor/components/Desenvolvedor";
+import PainelEntrada from "./modules/painel/components/PainelEntrada";
 
 import './assets/css/home.css';
 import './assets/css/history.css';
@@ -44,6 +45,7 @@ const App = () => {
     <Router>
       <AuthRedirect>
         <Routes>
+          <Route path="/painel" element={<PainelEntrada />} />
           <Route path="/:username" element={<Home />} />
           <Route path="/prova/:nameUrl" element={<Prova />} />
           <Route path="/provasimples/:nameUrl" element={<ProvaSimples />} />

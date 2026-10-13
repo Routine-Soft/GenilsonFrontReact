@@ -1,0 +1,446 @@
+/* ==========================================================================
+   Cursos, provas e gabaritos: cartões da lista e tela de criar/editar
+   ========================================================================== */
+
+.cs .conteudos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.cs .conteudo-skeleton {
+  height: 230px;
+  border-radius: var(--radius-lg);
+}
+
+.cs .conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px;
+}
+
+.cs .conteudo:hover {
+  border-color: var(--primary-ring);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.cs .conteudo__topo {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.cs .conteudo__icone {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border-radius: 14px;
+  transition: transform 0.4s var(--ease-mola);
+}
+
+.cs .conteudo:hover .conteudo__icone,
+.cs .gabarito:hover .conteudo__icone {
+  transform: rotate(-8deg) scale(1.06);
+}
+
+.cs .conteudo__icone svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cs .conteudo__textos {
+  display: grid;
+  flex: 1;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cs .conteudo__titulo {
+  font-size: 1.08rem;
+  font-weight: 750;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.cs .conteudo__detalhes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cs .conteudo__detalhes:empty {
+  display: none;
+}
+
+.cs .badge svg {
+  width: 13px;
+  height: 13px;
+}
+
+.cs .conteudo__link {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  background: var(--surface-2);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.cs .conteudo__link span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs .conteudo__link svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.cs .conteudo__link:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary-ring);
+}
+
+.cs .conteudo__compartilhar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cs .conteudo__rodape {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+}
+
+.cs .conteudo__data {
+  font-size: 0.82rem;
+  color: var(--text-subtle);
+}
+
+.cs .is-copiado {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 40%, transparent);
+}
+
+/* ---------- Gabaritos ---------- */
+
+.cs .gabaritos {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.cs .gabarito {
+  overflow: hidden;
+}
+
+.cs .gabarito:hover,
+.cs .gabarito.is-aberto {
+  border-color: var(--primary-ring);
+  box-shadow: var(--shadow-md);
+}
+
+.cs .gabarito__resumo {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.cs .gabarito__textos {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.cs .gabarito__textos strong {
+  font-size: 1.05rem;
+}
+
+.cs .gabarito__textos span {
+  overflow: hidden;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs .gabarito.is-aberto .aluno__seta {
+  transform: rotate(180deg);
+}
+
+.cs .gabarito__corpo {
+  display: grid;
+  gap: 14px;
+  padding: 4px 20px 18px;
+  animation: csSlideDown 0.3s var(--ease) backwards;
+}
+
+.cs .texto-rico {
+  padding: 16px;
+  overflow-x: auto;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+}
+
+.cs .texto-rico p + p {
+  margin-top: 8px;
+}
+
+.cs .texto-rico img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- Tela de criar/editar ---------- */
+
+.cs .editor {
+  width: min(880px, 100%);
+}
+
+.cs .editor__voltar {
+  margin-bottom: 16px;
+  animation: csFadeIn 0.4s var(--ease) backwards;
+}
+
+.cs .editor__form {
+  display: grid;
+  gap: 22px;
+  padding: clamp(18px, 3vw, 30px);
+  overflow: visible;
+  animation: csFadeInUp 0.5s var(--ease) 0.1s backwards;
+}
+
+.cs .editor__form.card--faixa::before {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.cs .editor__acoes {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 14px 0 4px;
+  margin-top: 4px;
+  background: linear-gradient(transparent, var(--surface) 30%);
+  border-top: 1px solid var(--border);
+}
+
+.cs .field__hint--erro {
+  font-weight: 650;
+  color: var(--danger);
+}
+
+/* Link: parte fixa + parte que a pessoa escreve */
+.cs .campo-link {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.cs .campo-link__prefixo {
+  display: flex;
+  flex: none;
+  align-items: center;
+  max-width: 55%;
+  padding: 0 0.85rem;
+  overflow: hidden;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-right: 0;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.cs .campo-link .input {
+  min-width: 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.cs .campo-link:focus-within .campo-link__prefixo {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* ---------- Perguntas da prova ---------- */
+
+.cs .perguntas__cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.cs .perguntas {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.cs .pergunta {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.cs .pergunta.is-completa {
+  border-color: color-mix(in srgb, var(--success) 35%, transparent);
+}
+
+.cs .pergunta:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-ring);
+}
+
+.cs .pergunta__numero {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  font-weight: 800;
+  color: var(--on-primary);
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  box-shadow: var(--shadow-primary);
+}
+
+.cs .pergunta.is-completa .pergunta__numero {
+  animation: csPopIn 0.4s var(--ease-mola);
+}
+
+.cs .pergunta__campos {
+  display: grid;
+  flex: 1;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cs .pergunta .input {
+  background: var(--surface);
+}
+
+.cs .pergunta .input--certa {
+  background: var(--success-soft);
+}
+
+.cs .pergunta__respostas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cs .field__label--certa,
+.cs .field__label--errada {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.cs .field__label--certa {
+  color: var(--success);
+}
+
+.cs .field__label--errada {
+  color: var(--danger);
+}
+
+.cs .field__label--certa svg,
+.cs .field__label--errada svg {
+  width: 16px;
+  height: 16px;
+}
+
+@container (max-width: 860px) {
+  .cs .conteudos {
+    grid-template-columns: 1fr;
+  }
+
+  .cs .pergunta__respostas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container (max-width: 520px) {
+  .cs .pergunta {
+    flex-direction: column;
+    padding: 14px;
+  }
+
+  .cs .campo-link {
+    flex-direction: column;
+  }
+
+  .cs .campo-link__prefixo {
+    max-width: none;
+    padding: 0.5rem 0.85rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .cs .campo-link .input {
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+  }
+
+  .cs .conteudo__compartilhar .btn {
+    flex: 1 1 auto;
+  }
+
+  .cs .editor__acoes .btn {
+    flex: 1;
+  }
+}

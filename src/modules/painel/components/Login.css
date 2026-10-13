@@ -1,0 +1,235 @@
+.cs.login {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  min-height: 100dvh;
+}
+
+/* ---------- Lado da marca (verde com formas amarelas) ---------- */
+
+.cs .login__marca {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 48px;
+  overflow: hidden;
+  color: #ffffff;
+  background: linear-gradient(160deg, #00b050 0%, #008a3e 55%, #005f2b 100%);
+}
+
+.cs[data-tema='escuro'] .login__marca {
+  background: linear-gradient(160deg, #0f5c33 0%, #0b3d23 60%, #07261a 100%);
+}
+
+.cs .login__forma {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cs .login__forma--1 {
+  top: -8%;
+  left: -12%;
+  width: 62%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--marca-amarelo) 0 50%, transparent 50%);
+  opacity: 0.95;
+  animation: csFloat 12s ease-in-out infinite;
+}
+
+.cs .login__forma--2 {
+  right: -14%;
+  bottom: -18%;
+  width: 70%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 65%);
+  border-radius: 50%;
+  animation: csFloat 14s ease-in-out infinite reverse;
+}
+
+.cs .login__forma--3 {
+  right: 10%;
+  top: 18%;
+  width: 90px;
+  height: 90px;
+  border: 3px solid rgba(255, 192, 0, 0.6);
+  border-radius: 24px;
+  transform: rotate(18deg);
+  animation: csFloat 10s ease-in-out infinite;
+}
+
+.cs .login__marca-conteudo {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 28px;
+  max-width: 460px;
+  animation: csFadeInUp 0.7s var(--ease) backwards;
+}
+
+.cs .login__logo {
+  display: block;
+  width: 168px;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.45);
+}
+
+.cs .login__logo img {
+  display: block;
+  width: 100%;
+}
+
+.cs .login__slogan {
+  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.18);
+}
+
+.cs .login__destaques {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.cs .login__destaques li {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 600;
+  animation: csFadeInUp 0.6s var(--ease) backwards;
+  animation-delay: calc(var(--i) * 120ms + 300ms);
+}
+
+.cs .login__destaque-icone {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: #10261a;
+  background: var(--marca-amarelo);
+  border-radius: 14px;
+  box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.4);
+}
+
+.cs .login__destaque-icone svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---------- Lado do formulário ---------- */
+
+.cs .login__lado {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 88px 24px 32px;
+}
+
+.cs .login__preferencias {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  animation: csFadeIn 0.6s var(--ease) 0.3s backwards;
+}
+
+.cs .login__preferencias .preferencias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.cs .login__cartao {
+  display: grid;
+  gap: 18px;
+  width: min(440px, 100%);
+  padding: clamp(24px, 4vw, 38px);
+  border-radius: var(--radius-xl);
+  animation: csFadeInUp 0.6s var(--ease) 0.1s backwards;
+}
+
+.cs .login__logo--celular {
+  display: none;
+}
+
+.cs .login__titulo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.cs .login__titulo + .page-subtitle {
+  margin-top: -10px;
+}
+
+.cs .login__senha {
+  position: relative;
+}
+
+.cs .login__senha .input {
+  padding-right: 52px;
+}
+
+.cs .login__ver-senha {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+}
+
+.cs .login__ver-senha:hover {
+  transform: translateY(-50%);
+}
+
+.cs .login__entrar {
+  min-height: 52px;
+  margin-top: 4px;
+  font-size: 1.05rem;
+}
+
+.cs .login__rodape {
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .cs.login {
+    grid-template-columns: 1fr;
+  }
+
+  .cs .login__marca {
+    display: none;
+  }
+
+  .cs .login__lado {
+    justify-content: flex-start;
+    padding: 84px 16px 28px;
+  }
+
+  .cs .login__logo--celular {
+    display: block;
+    width: 130px;
+    margin: 0 auto 4px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .cs .login__titulo,
+  .cs .login__cartao > .page-subtitle {
+    text-align: center;
+  }
+
+  .cs .login__preferencias {
+    right: 16px;
+    left: 16px;
+  }
+}
