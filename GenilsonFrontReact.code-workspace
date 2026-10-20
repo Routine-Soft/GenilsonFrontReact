@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../GenilsonParteDoSiteWordpress"
+		},
+		{
+			"path": "../genilson-next"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "GenilsonParteDoSiteWordpress"
+	}
+}
