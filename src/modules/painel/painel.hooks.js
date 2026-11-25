@@ -2,6 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import * as api from './painel.api';
 import { ordenarRecentes } from './painel.utils';
 
+// Gabarito automático: chamado pela tela de Provas depois de salvar
+export { sincronizarGabarito } from './painel.api';
+
 /* ---------- Preferências da tela: tema e tamanho da letra ---------- */
 
 export const TEMAS = ['cestseg', 'claro', 'escuro'];

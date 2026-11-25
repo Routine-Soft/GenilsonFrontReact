@@ -21,7 +21,7 @@ const ResetPassword = () => {
       setMessage(response.data.message);
       // Redirect to login page after successful password reset
       setTimeout(() => {
-        navigate('/login'); // Replace '/login' with the path to your login page
+        navigate('/painel');
       }, 2000); // Adjust the delay as needed
     } catch (error) {
       setMessage(error.response.data.message);

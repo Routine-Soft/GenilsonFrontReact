@@ -170,11 +170,57 @@
 
 .cs .grafico__cabecalho {
   margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 16px;
+}
+
+/* filtro de período: Hoje, 7 dias, 30 dias, 12 meses, Tudo */
+.cs .grafico__filtro {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.cs .grafico__opcao,
+.cs .grafico__opcao:hover {
+  margin: 0;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.cs .grafico__opcao:hover {
+  color: var(--text);
+}
+
+.cs .grafico__opcao.is-ativo,
+.cs .grafico__opcao.is-ativo:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.cs .grafico__opcao:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .cs .grafico__area {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--colunas, 7), minmax(0, 1fr));
   gap: 8px;
   height: 200px;
   padding-top: 24px;
@@ -211,7 +257,7 @@
   border-radius: 4px 4px 0 0;
   transform-origin: bottom;
   animation: csCrescer 0.8s var(--ease) backwards;
-  animation-delay: calc(var(--i, 0) * 60ms + 300ms);
+  animation-delay: calc(var(--i, 0) * var(--passo, 60ms) + 300ms);
 }
 
 @keyframes csCrescer {
@@ -296,6 +342,20 @@
   font-weight: 600;
   color: var(--text-muted);
   text-transform: capitalize;
+}
+
+.cs .grafico__area.is-denso {
+  gap: 3px;
+}
+
+.cs .grafico__area.is-denso .grafico__barra {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+}
+
+.cs .grafico__area.is-denso .grafico__dia {
+  font-size: 0.72rem;
+  white-space: nowrap;
 }
 
 .cs .grafico__dia.is-hoje {
@@ -443,5 +503,26 @@
 
   .cs .grafico__area {
     gap: 4px;
+  }
+
+  .cs .grafico__area.is-denso {
+    gap: 1px;
+  }
+
+  .cs .grafico__filtro {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .cs .grafico__filtro {
+    gap: 2px;
+  }
+
+  .cs .grafico__opcao,
+  .cs .grafico__opcao:hover {
+    flex: 1 1 auto;
+    padding: 6px 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
   }
 }

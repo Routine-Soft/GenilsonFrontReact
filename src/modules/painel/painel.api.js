@@ -1,4 +1,5 @@
 import { API_URL } from '../shared/api';
+import { acharGabarito, gabaritoDaProva } from './painel.utils';
 
 // Respostas guardadas por alguns minutos, para trocar de tela sem esperar de novo
 const cache = new Map();
@@ -91,4 +92,21 @@ export async function editar(recurso, id, dados) {
 export async function excluir(recurso, id) {
     await requisitar(`${RECURSOS[recurso].item}/${id}`, { method: 'DELETE' });
     limparCache(recurso);
+}
+
+/* ---------- Gabarito automático (ao salvar uma prova) ---------- */
+
+// Cria ou atualiza o gabarito da prova. "anterior" é a prova antes da edição (acha o gabarito
+// mesmo se o nome ou o link mudaram). Devolve 'criado' ou 'atualizado'.
+export async function sincronizarGabarito(prova, anterior) {
+    const lista = await requisitar(RECURSOS.gabaritos.listar);
+    const existente = (anterior && acharGabarito(lista, anterior)) || acharGabarito(lista, prova);
+    const dados = gabaritoDaProva(prova);
+    if (existente) {
+        await requisitar(`${RECURSOS.gabaritos.item}/${existente._id}`, { method: 'PATCH', body: JSON.stringify(dados) });
+    } else {
+        await requisitar(RECURSOS.gabaritos.criar, { method: 'POST', body: JSON.stringify(dados) });
+    }
+    limparCache('gabaritos');
+    return existente ? 'atualizado' : 'criado';
 }

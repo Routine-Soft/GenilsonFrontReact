@@ -1,9 +1,9 @@
 import { LuActivity, LuArrowRight, LuBookOpen, LuClipboardCheck, LuFileCheck, LuListChecks, LuPlus } from 'react-icons/lu';
 import { useCadastro, useHistorico } from '../../painel.hooks';
-import { contarHoje, contarNoMes, dataPorExtenso, plural, porDia, primeiroNome, saudacao } from '../../painel.utils';
+import { contarHoje, contarNoMes, dataPorExtenso, plural, primeiroNome, saudacao } from '../../painel.utils';
 import NumeroAnimado from '../shared/NumeroAnimado';
 import Aviso from '../shared/Aviso';
-import GraficoSemana from './GraficoSemana';
+import GraficoAlunos from './GraficoAlunos';
 import ListaRecentes from './ListaRecentes';
 import './Inicio.css';
 
@@ -104,7 +104,7 @@ const Inicio = ({ nome, irPara }) => {
                 ))}
             </section>
 
-            <GraficoSemana dias={porDia(estudos.itens, 7)} carregando={estudos.carregando} />
+            <GraficoAlunos estudos={estudos.itens} carregando={estudos.carregando} />
 
             <div className="inicio-listas">
                 <ListaRecentes

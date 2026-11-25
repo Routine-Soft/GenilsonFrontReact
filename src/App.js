@@ -1,65 +1,50 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import Home from "./assets/js/home";
 import ResetPassword from "./assets/js/resetPasswords";
-import LoginUser from "./assets/js/loginUser";
 import ResetPasswordRequest from "./assets/js/resetPasswordrequest";
-import Login from "./assets/js/login";
-import Prova from "./assets/js/questionario";
-import ProvaSimples from "./assets/js/questionarioSimples";
-import Aprovado from "./assets/js/aprovado";
-import Curso from "./assets/js/conteudoCurso";
-import CursoSimples from "./assets/js/conteudoCursoOPEN";
+import ProvaAluno from "./modules/aluno/components/ProvaAluno";
+import CursoAluno from "./modules/aluno/components/CursoAluno";
 import CreateUser from "./assets/js/createUser";
-import isTokenValid from "./helps/useAuth";
 import Desenvolvedor from "./modules/desenvolvedor/components/Desenvolvedor";
 import PainelEntrada from "./modules/painel/components/PainelEntrada";
 
-import './assets/css/home.css';
-import './assets/css/history.css';
-import './assets/css/treinos.css';
-import './assets/css/mensagemLogar.css';
-import './assets/css/dados.css';
-import './assets/css/createTreino.css';
 import './assets/css/login.css';
 import './assets/css/primeiroAcesso.css';
 import './assets/css/resetPasswordrequest.css';
-import './assets/css/questionario.css';
 
-// Redireciona para Home se token válido
-const AuthRedirect = ({ children }) => {
-  const location = useLocation();
-
-  if (isTokenValid()) {
-    const username = localStorage.getItem("AlunoUsername"); // ou outro dado que você tenha salvo
-    if (location.pathname === "/" || location.pathname === "/login") {
-      return <Navigate to={`/${username}`} replace />;
-    }
-  }
-
+// Links antigos no formato /#/painel (com #) abrem a página certa
+const RedirecionaHash = ({ children }) => {
+  const { hash } = useLocation();
+  if (hash.startsWith("#/")) return <Navigate to={hash.slice(1)} replace />;
   return children;
 };
 
 const App = () => {
   return (
     <Router>
-      <AuthRedirect>
+      <RedirecionaHash>
         <Routes>
+          {/* Login e painel do dono do sistema */}
           <Route path="/painel" element={<PainelEntrada />} />
-          <Route path="/:username" element={<Home />} />
-          <Route path="/prova/:nameUrl" element={<Prova />} />
-          <Route path="/provasimples/:nameUrl" element={<ProvaSimples />} />
-          <Route path="/curso/:nameUrl" element={<Curso />} />
-          <Route path="/cursosimples/:nameUrl" element={<CursoSimples />} />
+          <Route path="/" element={<Navigate to="/painel" replace />} />
+          <Route path="/login" element={<Navigate to="/painel" replace />} />
+          <Route path="/loginPage" element={<Navigate to="/painel" replace />} />
+
+          {/* Páginas dos alunos (os links ficam no site e no WhatsApp) */}
+          <Route path="/prova/:nameUrl" element={<ProvaAluno comFormulario />} />
+          <Route path="/provasimples/:nameUrl" element={<ProvaAluno comFormulario={false} />} />
+          <Route path="/curso/:nameUrl" element={<CursoAluno comFormulario />} />
+          <Route path="/cursosimples/:nameUrl" element={<CursoAluno comFormulario={false} />} />
+
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route path="/" element={<LoginUser />} />
-          <Route path="/login" element={<LoginUser />} />
           <Route path="/redefinir-senha" element={<ResetPasswordRequest />} />
-          <Route path="/loginPage" element={<Login />} />
           <Route path="/createauser" element={<CreateUser />} />
           <Route path="/desenvolvedor" element={<Desenvolvedor />} />
+
+          {/* Endereço antigo do painel (/nome-do-usuario) e qualquer outro: painel novo */}
+          <Route path="*" element={<Navigate to="/painel" replace />} />
         </Routes>
-      </AuthRedirect>
+      </RedirecionaHash>
     </Router>
   );
 };

@@ -39,7 +39,7 @@ const CreateUser = () => {
             localStorage.setItem('userPhone', phone)
             setMessage(response.data.message)
             setTimeout(() => {
-                navigate('/loginPage'); // Replace '/login' with the path to your login page
+                navigate('/painel');
             }, 2000); // Adjust the delay as needed
         } catch (error) {
             setMessage(error.response.data.message)

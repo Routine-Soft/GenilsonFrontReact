@@ -107,3 +107,19 @@ body * {
         width: 90%;
     }
 }
+
+/* Estilo geral de botão que estava no antigo questionario.css (prova antiga).
+   O painel, criar conta, redefinir senha e desenvolvedor foram feitos com ele valendo. */
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}

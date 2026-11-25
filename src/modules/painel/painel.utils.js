@@ -109,18 +109,67 @@ export function contarNoMes(lista = [], agora = new Date()) {
     }).length;
 }
 
-// Quantos registros por dia nos últimos N dias (do mais antigo para hoje)
-export function porDia(lista = [], dias = 7, agora = new Date()) {
-    const contagem = Array.from({ length: dias }, (_, i) => {
-        const dia = inicioDoDia(agora);
-        dia.setDate(dia.getDate() - (dias - 1 - i));
-        return { dia, total: 0 };
-    });
-    for (const item of lista) {
-        const atras = diasAtras(item.createdAt, agora);
-        if (atras >= 0 && atras < dias) contagem[dias - 1 - atras].total += 1;
+// Filtro do gráfico do Início: cada período vira colunas (por hora, dia, mês ou ano)
+export const PERIODOS_GRAFICO = [
+    { id: 'hoje', rotulo: 'Hoje', resumo: 'hoje' },
+    { id: 'semana', rotulo: '7 dias', resumo: 'nos últimos 7 dias' },
+    { id: 'mes', rotulo: '30 dias', resumo: 'nos últimos 30 dias' },
+    { id: 'ano', rotulo: '12 meses', resumo: 'nos últimos 12 meses' },
+    { id: 'tudo', rotulo: 'Tudo', resumo: 'desde o início' },
+];
+
+const nomeDoMes = (d, formato) => d.toLocaleDateString('pt-BR', formato).replace('.', '');
+
+// Colunas do período, da mais antiga para a atual: { inicio, fim, rotulo, rotuloLongo, total, atual, mostrarRotulo }
+function colunasDoPeriodo(periodo, lista, agora) {
+    const hoje = inicioDoDia(agora);
+    if (periodo === 'hoje') {
+        // de 3 em 3 horas: 0h, 3h, ... 21h
+        return Array.from({ length: 8 }, (_, i) => {
+            const inicio = new Date(hoje); inicio.setHours(i * 3);
+            const fim = new Date(hoje); fim.setHours(i * 3 + 3);
+            return { inicio, fim, rotulo: `${i * 3}h`, rotuloLongo: `Hoje, das ${i * 3}h às ${i * 3 + 3}h`, atual: agora >= inicio && agora < fim, mostrarRotulo: true };
+        });
     }
-    return contagem;
+    if (periodo === 'semana' || periodo === 'mes') {
+        const dias = periodo === 'semana' ? 7 : 30;
+        return Array.from({ length: dias }, (_, i) => {
+            const inicio = new Date(hoje); inicio.setDate(inicio.getDate() - (dias - 1 - i));
+            const fim = new Date(inicio); fim.setDate(fim.getDate() + 1);
+            const atual = i === dias - 1;
+            return {
+                inicio, fim, atual,
+                rotulo: periodo === 'semana' ? rotuloCurtoDoDia(inicio, agora) : (atual ? 'Hoje' : String(inicio.getDate())),
+                rotuloLongo: formatarData(inicio),
+                // em 30 dias, mostra o dia só de 5 em 5 (no celular não cabe tudo)
+                mostrarRotulo: periodo === 'semana' || atual || (dias - 1 - i) % 5 === 0,
+            };
+        });
+    }
+    if (periodo === 'ano') {
+        return Array.from({ length: 12 }, (_, i) => {
+            const inicio = new Date(agora.getFullYear(), agora.getMonth() - (11 - i), 1);
+            const fim = new Date(inicio.getFullYear(), inicio.getMonth() + 1, 1);
+            return { inicio, fim, rotulo: nomeDoMes(inicio, { month: 'short' }), rotuloLongo: nomeDoMes(inicio, { month: 'long', year: 'numeric' }), atual: i === 11, mostrarRotulo: true };
+        });
+    }
+    // tudo: um ano por coluna, do primeiro registro até agora
+    const anos = lista.map((item) => new Date(item.createdAt).getFullYear()).filter((a) => !Number.isNaN(a));
+    const primeiro = Math.min(agora.getFullYear(), ...anos);
+    return Array.from({ length: agora.getFullYear() - primeiro + 1 }, (_, i) => {
+        const ano = primeiro + i;
+        return { inicio: new Date(ano, 0, 1), fim: new Date(ano + 1, 0, 1), rotulo: String(ano), rotuloLongo: `Ano de ${ano}`, atual: ano === agora.getFullYear(), mostrarRotulo: true };
+    });
+}
+
+export function agruparPorPeriodo(lista = [], periodo = 'semana', agora = new Date()) {
+    const colunas = colunasDoPeriodo(periodo, lista, agora).map((c) => ({ ...c, total: 0 }));
+    for (const item of lista) {
+        const d = new Date(item.createdAt);
+        const coluna = colunas.find((c) => d >= c.inicio && d < c.fim);
+        if (coluna) coluna.total += 1;
+    }
+    return colunas;
 }
 
 export function rotuloCurtoDoDia(data, agora = new Date()) {
@@ -198,4 +247,36 @@ export function treinosDasPerguntas(perguntas, prova) {
 
 export function perguntaCompleta(p) {
     return Boolean(p.pergunta.trim() && p.errada1.trim() && p.errada2.trim() && p.certa.trim());
+}
+
+/* ---------- Gabarito automático de cada prova ---------- */
+
+const escaparHtml = (texto = '') => String(texto)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+export const tituloDoGabarito = (prova) => `Gabarito ${String(prova.nameProva || '').trim()}`;
+
+// Marca que liga o gabarito à prova (o link da prova é único e não muda quando o nome muda)
+export const marcaDoGabarito = (prova) => `/prova/${prova.nameUrl}`;
+
+// Conteúdo do gabarito no mesmo formato do editor (texto formatado).
+// Na tela do aluno as opções são embaralhadas, por isso o gabarito mostra o texto da resposta certa, sem letra.
+export function gabaritoDaProva(prova) {
+    const perguntas = perguntasDaProva(prova).filter((p) => p.pergunta.trim());
+    const minimo = Math.ceil(perguntas.length * 0.8);
+    const itens = perguntas.map((p) => `<li><strong>${escaparHtml(p.pergunta.trim())}</strong><br>Resposta certa: <strong>${escaparHtml(p.certa.trim())}</strong></li>`).join('');
+    return {
+        titulo: tituloDoGabarito(prova),
+        conteudogabarito:
+            `<p><strong>Prova:</strong> ${escaparHtml(String(prova.nameProva || '').trim())}<br><strong>Questões:</strong> ${perguntas.length} · <strong>Nota mínima:</strong> 80% (${minimo} acertos)</p>` +
+            `<ol>${itens}</ol>` +
+            `<p><i>Gabarito atualizado sozinho quando a prova é salva no painel. Link da prova: ${LINK_APP}${marcaDoGabarito(prova)}</i></p>`,
+    };
+}
+
+// Acha o gabarito de uma prova: pelo link da prova no texto ou, nos antigos, pelo título
+export function acharGabarito(gabaritos = [], prova) {
+    const marca = `${LINK_APP}${marcaDoGabarito(prova)}<`;
+    return gabaritos.find((g) => String(g.conteudogabarito || '').includes(marca))
+        || gabaritos.find((g) => g.titulo === tituloDoGabarito(prova));
 }

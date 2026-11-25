@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { LuListChecks, LuPlus } from 'react-icons/lu';
-import { useAviso, useCadastro } from '../../painel.hooks';
+import { sincronizarGabarito, useAviso, useCadastro } from '../../painel.hooks';
 import { linkDaProva, normalizar, perguntaCompleta, perguntasDaProva, plural } from '../../painel.utils';
 import PageHeader from '../shared/PageHeader';
 import Busca from '../shared/Busca';
@@ -31,8 +31,17 @@ const Provas = () => {
     };
 
     const aoSalvar = async (valores, id) => {
+        const anterior = id ? itens.find((p) => p._id === id) : null;
         await salvar(valores, id);
-        setAviso(id ? `Prova "${valores.nameProva}" atualizada.` : `Prova "${valores.nameProva}" cadastrada.`);
+        // o gabarito da prova é criado/atualizado sozinho (aba Gabaritos)
+        setErroAcao('');
+        try {
+            const feito = await sincronizarGabarito(valores, anterior);
+            setAviso(`Prova "${valores.nameProva}" ${id ? 'atualizada' : 'cadastrada'}. Gabarito ${feito} automaticamente.`);
+        } catch (e) {
+            setAviso(id ? `Prova "${valores.nameProva}" atualizada.` : `Prova "${valores.nameProva}" cadastrada.`);
+            setErroAcao(`A prova foi salva, mas o gabarito não foi atualizado: ${e.message}`);
+        }
         fecharEditor();
     };
 
